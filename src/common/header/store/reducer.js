@@ -3,7 +3,10 @@ import { fromJS } from "immutable";
 
 const defaultState = fromJS({
   focused: false,
-  list: [] // fromJS defined this array as an immutable array
+  mouseIn: false,
+  list: [], // fromJS defined this array as an immutable array
+  page: 1,
+  totalPage: 1
 });
 
 export default (state = defaultState, action) => {
@@ -14,11 +17,21 @@ export default (state = defaultState, action) => {
       return state.set("focused", true);
     case actionTypes.SEARCH_BLUR:
       return state.set("focused", false);
+    case actionTypes.MOUSE_ENTER:
+      return state.set("mouseIn", true);
+    case actionTypes.MOUSE_LEAVE:
+      return state.set("mouseIn", false);
+    case actionTypes.CHANGE_PAGE:
+      return state.set("page", action.page);
     /* we cannot pass immutable array cannot set to be normal array
        so we need to convert normal array to immutable array
        using fromJS() */
     case actionTypes.CHANGE_LIST:
-      return state.set("list", fromJS(action.data.data));
+      // merge() can replace set().set().set()....
+      return state.merge({
+        list: fromJS(action.data),
+        totalPage: action.totalPage
+      });
     default:
       return state;
   }
