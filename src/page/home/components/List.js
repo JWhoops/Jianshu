@@ -8,9 +8,9 @@ class List extends Component {
     const { list, getMoreList, page } = this.props;
     return (
       <div>
-        {list.map(item => {
+        {list.map((item, index) => {
           return (
-            <ListItem key={item.get("id")}>
+            <ListItem key={index}>
               <img alt="" className="list-pic" src={item.get("imgUrl")} />
               <ListInfo>
                 <h3 className="title">{item.get("title")}</h3>
