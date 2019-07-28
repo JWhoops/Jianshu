@@ -1,9 +1,12 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import { HomeWrapper, HomeLeft, HomeRight } from "./style";
 import Topic from "./components/Topic";
 import Writer from "./components/Writer";
 import Recommend from "./components/Recommend";
 import List from "./components/List";
+import { actionCreator } from "./store";
+
 class Home extends Component {
   render() {
     return (
@@ -24,6 +27,18 @@ class Home extends Component {
       </HomeWrapper>
     );
   }
+  componentDidMount() {
+    this.props.changeHomeData();
+  }
 }
+const mapDispatch = dispatch => ({
+  changeHomeData() {
+    const action = actionCreator.getHomeInfo();
+    dispatch(action);
+  }
+});
 
-export default Home;
+export default connect(
+  null,
+  mapDispatch
+)(Home);
