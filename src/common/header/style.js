@@ -10,9 +10,7 @@ const HeaderWrapper = styled.div`
 
 // careful about importing url, cannot use relative path in ``
 // have to import first
-const Logo = styled.a.attrs({
-  href: "/"
-})`
+const Logo = styled.div`
   position: absolute;
   top: 0;
   left: 0;
