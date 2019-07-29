@@ -18,7 +18,7 @@ import {
 import { actionCreators } from "./store";
 import { CSSTransition } from "react-transition-group";
 import { Link } from "react-router-dom";
-
+import { actionCreator as loginActionCreator } from "../../page/login/store";
 class Header extends Component {
   getListArea = () => {
     // destructuring assignment
@@ -77,7 +77,14 @@ class Header extends Component {
   };
 
   render() {
-    const { focused, handleInputBlur, handleInputFocus, list } = this.props;
+    const {
+      focused,
+      handleInputBlur,
+      handleInputFocus,
+      list,
+      login,
+      logout
+    } = this.props;
     return (
       <HeaderWrapper>
         <Link to="/">
@@ -86,7 +93,15 @@ class Header extends Component {
         <Nav>
           <NavItem className="left active">首页</NavItem>
           <NavItem className="left">下载App</NavItem>
-          <NavItem className="right">登录</NavItem>
+          {login ? (
+            <NavItem onClick={logout} className="right">
+              退出
+            </NavItem>
+          ) : (
+            <Link to="/login">
+              <NavItem className="right">登录</NavItem>
+            </Link>
+          )}
           <NavItem className="right">
             <i className="iconfont">&#xe636;</i>
           </NavItem>
@@ -108,10 +123,12 @@ class Header extends Component {
         </Nav>
         <Addition>
           <Button className="reg">注册</Button>
-          <Button className="writting">
-            <i className="iconfont">&#xe615;</i>
-            写文章
-          </Button>
+          <Link to="/write">
+            <Button className="writting">
+              <i className="iconfont">&#xe615;</i>
+              写文章
+            </Button>
+          </Link>
         </Addition>
       </HeaderWrapper>
     );
@@ -127,7 +144,8 @@ const mapStateToprops = state => {
     list: state.getIn(["header", "list"]),
     page: state.getIn(["header", "page"]),
     mouseIn: state.getIn(["header", "mouseIn"]),
-    totalPage: state.getIn(["header", "totalPage"])
+    totalPage: state.getIn(["header", "totalPage"]),
+    login: state.getIn(["login", "login"])
   };
 };
 // dispatch allows component to update data in store
@@ -156,6 +174,10 @@ const mapDispatchToprops = dispatch => {
       page < totalPage
         ? dispatch(actionCreators.changePage(page + 1))
         : dispatch(actionCreators.changePage(1));
+    },
+    logout() {
+      // this action will go to login's reducer instead of header's reducer
+      dispatch(loginActionCreator.logout());
     }
   };
 };

@@ -4,8 +4,9 @@ import store from "./store";
 import { Provider } from "react-redux";
 import { BrowserRouter, Route } from "react-router-dom";
 import Home from "./page/home";
-import Detail from "./page/detail";
+import Detail from "./page/detail/loadable.js";
 import Login from "./page/login";
+import Write from "./page/write";
 
 class App extends Component {
   render() {
@@ -17,6 +18,7 @@ class App extends Component {
             <Header />
             <Route path="/" exact component={Home} />
             <Route path="/login" exact component={Login} />
+            <Route path="/write" exact component={Write} />
             <Route path="/detail/:id" exact component={Detail} />
           </div>
         </BrowserRouter>

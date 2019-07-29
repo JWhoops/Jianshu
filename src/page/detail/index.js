@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { DetailWrapper, Header, Content } from "./style";
 import { connect } from "react-redux";
 import { actionCreator } from "./store";
+import { withRouter } from "react-router-dom";
 
 class Detail extends Component {
   render() {
@@ -31,4 +32,4 @@ const mapDispatch = dispatch => ({
 export default connect(
   mapState,
   mapDispatch
-)(Detail);
+)(withRouter(Detail));
